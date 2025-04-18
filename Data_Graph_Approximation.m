@@ -1,5 +1,5 @@
 function [H,Qi,Ai,B,alpha,beta,obj] = Data_Graph_Approximation(X,num_nei,lambda1,lambda2,lambda3,Class)
- % X±íÊ¾Ã¿Ò»ĞĞ±íÊ¾Ò»¸öÊı¾İ£¬ÒÔĞĞÎªµ¥Î»
+ % Xè¡¨ç¤ºæ¯ä¸€è¡Œè¡¨ç¤ºä¸€ä¸ªæ•°æ®ï¼Œä»¥è¡Œä¸ºå•ä½
 Num_view = length(X);
 Num_fea = size(X{1},1);
 
@@ -49,12 +49,12 @@ for iter = 1:max_iter
      ri = zeros(Num_fea,Class);
      rii = ri;
      for i = 1:Num_view
-         ri = ri + beta(i)*B;
+         ri =  beta(i)*B;
          for j = 1:Num_view
              rii = rii+beta(i)*beta(j)*Ai{j};            
          end
          riii = rii-beta(i)*beta(j)*Ai{i};
-         Ai{i} = (2*X{i}*Qi{i}+2*lambda2*ri-lambda2*riii)*pinv(2*Qi{i}'*Qi{i}+2*lambda2*beta(i)^2*eye(Class));
+         Ai{i} = (2*X{i}*Qi{i}+2*lambda2*ri-2lambda2*riii)*pinv(2*Qi{i}'*Qi{i}+2*lambda2*beta(i)^2*eye(Class));
          Ai{i} = max(Ai{i},0);
      end
      clear ri;
